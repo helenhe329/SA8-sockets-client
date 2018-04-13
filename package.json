@@ -1,0 +1,24 @@
+{
+  "name": "starterpack-helenhe329",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": "https://github.com/dartmouth-cs52-18S/starterpack-helenhe329.git",
+  "author": "helenhe329 <helenhe329@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "SET NODE_ENV=development& webpack-serve ./webpack.config.js"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-serve": "^0.3.1"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
