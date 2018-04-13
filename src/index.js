@@ -1,6 +1,6 @@
+import $ from 'jquery';
 import './style.scss';
 
-const $ = require('jquery');
 
 let num = 0;
 window.setInterval((() => {
