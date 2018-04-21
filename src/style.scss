@@ -4,10 +4,48 @@ body, html {
   height: 100%;
 }
 
-.logo {
-  background-image: url('img/pie.jpg');
-  width: 100px;
-  height: 100px;
-  background-repeat: no-repeat;
-  background-size: contain;
+#notepad {
+
+}
+
+#new-note-bar {
+  input {
+    font-size: 1.25em;
+    border-radius: .25em;
+    padding: 5px;
+    width: 50%;
+  }
+  button {
+    font-size: 1.25em;
+    border-radius: .25em;
+    padding: 5px;
+    cursor: pointer;
+  }
+}
+
+.note {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+  0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.note-title {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.icons {
+  display: flex;
+  flex-direction: row;
+}
+
+.icon {
+  margin: 0px 3px;
+  cursor: pointer;
 }
