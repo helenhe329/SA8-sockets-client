@@ -10,7 +10,6 @@ class NewNoteBar extends Component {
 
   onInputChange(event) {
     this.setState({ title: event.target.value });
-    // this.props.onSearchChange(event.target.value);
   }
 
   onCreate(event) {

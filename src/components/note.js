@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
-// import Marked from 'marked';
+import marked from 'marked';
 
 class Note extends Component {
   constructor(props) {
@@ -12,11 +12,11 @@ class Note extends Component {
     this.onDrag = this.onDrag.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
+    this.onTextChange = this.onTextChange.bind(this);
     this.renderNote = this.renderNote.bind(this);
   }
 
   onDrag(event, position) {
-    console.log('dragging');
     this.props.updateNote(this.props.id, { x: position.x, y: position.y });
   }
 
@@ -28,33 +28,42 @@ class Note extends Component {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
+  onTextChange(event) {
+    this.props.updateNote(this.props.id, { text: event.target.value });
+  }
+
   renderNote() {
-    if (this.state.isEditing) {
-      return <div>editing!</div>;
-    } else {
-      return (
-        <Draggable
-          handle=".note-mover"
-          grid={[25, 25]}
-          defaultPosition={{ x: 20, y: 20 }}
-          position={{
-            x: this.props.note.x, y: this.props.note.y,
-          }}
-          onDrag={this.onDrag}
-        >
-          <div className="note">
-            <div className="note-title">
-              {this.props.note.title}
-              <div className="icons">
-                <div onClick={this.onDeleteClick}><i className="icon fa fa-trash-alt" /></div>
-                <div onClick={this.onEditClick}><i className="icon far fa-edit" /></div>
-                <div onDrag={this.onDrag} ><i className="note-mover icon fas fa-arrows-alt" /></div>
-              </div>
+    const editButton = this.state.isEditing ?
+      <div onClick={this.onEditClick}><i className="icon fas fa-check" /></div> :
+      <span onClick={this.onEditClick}><i className="icon fas fa-edit" /></span>;
+
+    const noteContent = this.state.isEditing ?
+      <textarea onChange={this.onTextChange} className="note-content" value={this.props.note.text} /> :
+      <div className="note-content" dangerouslySetInnerHTML={{ __html: marked(this.props.note.text || '') }} />;
+
+    return (
+      <Draggable
+        handle=".note-mover"
+        grid={[25, 25]}
+        defaultPosition={{ x: 20, y: 20 }}
+        position={{
+          x: this.props.note.x, y: this.props.note.y,
+        }}
+        onDrag={this.onDrag}
+      >
+        <div className="note">
+          <div className="note-title-area">
+            <div className="note-title">{this.props.note.title}</div>
+            <div className="icons">
+              { editButton }
+              <span onClick={this.onDeleteClick}><i className="icon fa fa-trash-alt" /></span>
+              <span onDrag={this.onDrag} ><i className="note-mover icon fas fa-arrows-alt" /></span>
             </div>
           </div>
-        </Draggable>
-      );
-    }
+          { noteContent }
+        </div>
+      </Draggable>
+    );
   }
 
   render() {

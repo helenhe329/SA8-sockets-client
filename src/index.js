@@ -32,6 +32,8 @@ class App extends Component {
     this.setState({
       counter: this.state.counter + 1,
     });
+
+    console.log(note);
   }
 
   updateNote(id, fields) {

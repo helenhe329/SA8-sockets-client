@@ -1,43 +1,72 @@
 body, html {
-  font-family: "Roboto", sans-serif;
-  background: linear-gradient(to bottom, #87e0fd 0%,#53cbf1 40%,#05abe0 100%);
-  height: 100%;
-}
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  font-family: 'Source Sans Pro', sans-serif;
 
-#notepad {
-
+  background-image: url("img/desk3.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 0% 0%;
 }
 
 #new-note-bar {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.5);
+
   input {
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 1.25em;
-    border-radius: .25em;
-    padding: 5px;
+    padding: 5px 10px;
     width: 50%;
+    background: rgba(255, 255, 255, 0.8);
   }
   button {
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 5px 20px;
+    background-color: #ADD8E6;
+    text-align: center;
     font-size: 1.25em;
-    border-radius: .25em;
-    padding: 5px;
+    color: white;
+
+    border-color: #ADD8E6;
+    border-style: solid;
+    border-width: 2px;
     cursor: pointer;
+  }
+
+  button:hover {
+    box-shadow: 2px 2px 0 0 grey;
   }
 }
 
 .note {
+  position: absolute;
   display: flex;
-  width: 200px;
-  height: 200px;
+  flex-direction: column;
+  min-width: 200px;
+  min-height: 200px;
   padding: 10px;
   background-color: white;
   color: black;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
   0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 1px;
 }
 
-.note-title {
+.note-title-area {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding-bottom: 10px;
+}
+
+.note-title {
+  min-width: 50%;
 }
 
 .icons {
@@ -46,6 +75,25 @@ body, html {
 }
 
 .icon {
-  margin: 0px 3px;
+  margin: 0px 5px;
   cursor: pointer;
+}
+
+.note-content {
+  border-color: grey;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 0.5px;
+  padding: 5px;
+  min-height: 155px;
+  overflow: auto;
+}
+
+textarea {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1em;
+}
+
+p {
+  margin: 0;
 }
