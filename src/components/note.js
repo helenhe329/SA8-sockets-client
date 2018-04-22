@@ -12,6 +12,7 @@ class Note extends Component {
     this.onDrag = this.onDrag.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
+    this.onTitleChange = this.onTitleChange.bind(this);
     this.onTextChange = this.onTextChange.bind(this);
     this.renderNote = this.renderNote.bind(this);
   }
@@ -28,6 +29,10 @@ class Note extends Component {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
+  onTitleChange(event) {
+    this.props.updateNote(this.props.id, { title: event.target.value });
+  }
+
   onTextChange(event) {
     this.props.updateNote(this.props.id, { text: event.target.value });
   }
@@ -36,6 +41,10 @@ class Note extends Component {
     const editButton = this.state.isEditing ?
       <div onClick={this.onEditClick}><i className="icon fas fa-check" /></div> :
       <span onClick={this.onEditClick}><i className="icon fas fa-edit" /></span>;
+
+    const noteTitle = this.state.isEditing ?
+      <input onChange={this.onTitleChange} className="note-title" value={this.props.note.title} /> :
+      <div className="note-title">{this.props.note.title}</div>;
 
     const noteContent = this.state.isEditing ?
       <textarea onChange={this.onTextChange} className="note-content" value={this.props.note.text} /> :
@@ -53,7 +62,7 @@ class Note extends Component {
       >
         <div className="note">
           <div className="note-title-area">
-            <div className="note-title">{this.props.note.title}</div>
+            { noteTitle }
             <div className="icons">
               { editButton }
               <span onClick={this.onDeleteClick}><i className="icon fa fa-trash-alt" /></span>

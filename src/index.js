@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Note from './components/note';
 import NewNoteBar from './components/new_note_bar';
+import * as db from './services/datastore';
 import './style.scss';
 
 class App extends Component {
@@ -11,41 +12,28 @@ class App extends Component {
 
     this.state = {
       notes: Immutable.Map(),
-      counter: 0,
     };
     this.addNote = this.addNote.bind(this);
     this.updateNote = this.updateNote.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
   }
 
-  addNote(title) {
-    const note = {
-      title,
-      text: '',
-      x: 20,
-      y: 20,
-      zIndex: 0,
-    };
-    this.setState({
-      notes: this.state.notes.set(this.state.counter, note),
+  componentDidMount() {
+    db.fetchNotes((notes) => {
+      this.setState({ notes: Immutable.Map(notes) });
     });
-    this.setState({
-      counter: this.state.counter + 1,
-    });
+  }
 
-    console.log(note);
+  addNote(title) {
+    db.addNote(title);
   }
 
   updateNote(id, fields) {
-    this.setState({
-      notes: this.state.notes.update(id, (n) => { return Object.assign({}, n, fields); }),
-    });
+    db.updateNote(id, Object.assign({}, this.state.notes.get(id), fields));
   }
 
   deleteNote(id) {
-    this.setState({
-      notes: this.state.notes.delete(id),
-    });
+    db.deleteNote(id);
   }
 
   render() {
