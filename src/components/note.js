@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
 import marked from 'marked';
+import ReactTooltip from 'react-tooltip';
 
 class Note extends Component {
   constructor(props) {
@@ -10,6 +11,8 @@ class Note extends Component {
       isEditing: false,
     };
     this.onDrag = this.onDrag.bind(this);
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
@@ -18,7 +21,17 @@ class Note extends Component {
   }
 
   onDrag(event, position) {
-    this.props.updateNote(this.props.id, { x: position.x, y: position.y });
+    if (position.x > 0 && position.y > 0) {
+      this.props.updateNote(this.props.id, { x: position.x, y: position.y });
+    }
+  }
+
+  onDragStart(event) {
+    this.props.updateNote(this.props.id, { zIndex: 1000 });
+  }
+
+  onDragEnd(event) {
+    this.props.updateNote(this.props.id, { zIndex: 0 });
   }
 
   onDeleteClick(event) {
@@ -38,9 +51,15 @@ class Note extends Component {
   }
 
   renderNote() {
+    console.log(this.props.note);
+
     const editButton = this.state.isEditing ?
-      <div onClick={this.onEditClick}><i className="icon fas fa-check" /></div> :
-      <span onClick={this.onEditClick}><i className="icon fas fa-edit" /></span>;
+      <span onClick={this.onEditClick} data-tip data-for="saveChanges"><i className="icon fas fa-check" /></span> :
+      <span onClick={this.onEditClick} data-tip data-for="editNote"><i className="icon fas fa-edit" /></span>;
+
+    const editTooltip = this.state.isEditing ?
+      <ReactTooltip className="tooltip" id="saveChanges" effect="solid"><span>Save changes</span></ReactTooltip> :
+      <ReactTooltip className="tooltip" id="editNote" effect="solid"><span>Edit</span></ReactTooltip>;
 
     const noteTitle = this.state.isEditing ?
       <input onChange={this.onTitleChange} className="note-title" value={this.props.note.title} /> :
@@ -59,14 +78,23 @@ class Note extends Component {
           x: this.props.note.x, y: this.props.note.y,
         }}
         onDrag={this.onDrag}
+        onStart={this.onDragStart}
+        onStop={this.onDragEnd}
       >
         <div className="note">
           <div className="note-title-area">
             { noteTitle }
             <div className="icons">
               { editButton }
-              <span onClick={this.onDeleteClick}><i className="icon fa fa-trash-alt" /></span>
-              <span onDrag={this.onDrag} ><i className="note-mover icon fas fa-arrows-alt" /></span>
+              { editTooltip }
+              <span onClick={this.onDeleteClick} data-tip data-for="deleteNote"><i className="icon fa fa-trash-alt" /></span>
+              <ReactTooltip className="tooltip" id="deleteNote" effect="solid">
+                <span>Delete</span>
+              </ReactTooltip>
+              <span onDrag={this.onDrag} data-tip data-for="dragNote"><i className="note-mover icon fas fa-arrows-alt" /></span>
+              <ReactTooltip className="tooltip" id="dragNote" effect="solid">
+                <span>Drag</span>
+              </ReactTooltip>
             </div>
           </div>
           { noteContent }

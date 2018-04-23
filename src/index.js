@@ -12,6 +12,7 @@ class App extends Component {
 
     this.state = {
       notes: Immutable.Map(),
+      zIndexCounter: 0,
     };
     this.addNote = this.addNote.bind(this);
     this.updateNote = this.updateNote.bind(this);
@@ -26,6 +27,7 @@ class App extends Component {
 
   addNote(title) {
     db.addNote(title);
+    this.setState({ zIndexCounter: this.state.zIndexCounter + 1 });
   }
 
   updateNote(id, fields) {
@@ -42,7 +44,13 @@ class App extends Component {
         <NewNoteBar addNote={title => this.addNote(title)} />
         <div id="notes">
           {this.state.notes.entrySeq().map(([id, note]) => {
-            return <Note key={id} id={id} note={note} updateNote={this.updateNote} deleteNote={this.deleteNote} />;
+            return (<Note key={id}
+              id={id}
+              note={note}
+              zIndexCounter={this.state.zIndexCounter}
+              updateNote={this.updateNote}
+              deleteNote={this.deleteNote}
+            />);
           })}
         </div>
       </div>

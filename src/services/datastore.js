@@ -20,7 +20,7 @@ export function fetchNotes(callback) {
 export function addNote(title) {
   const id = firebase.database().ref().child('notes').push().key;
   firebase.database().ref('notes').child(id).set({
-    title, text: '', x: 20, y: 20,
+    title, text: '', x: 20, y: 20, zIndex: 0,
   });
 }
 
