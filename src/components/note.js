@@ -21,6 +21,7 @@ class Note extends Component {
   }
 
   onDrag(event, position) {
+    console.log(position);
     if (position.x > 0 && position.y > 0) {
       this.props.updateNote(this.props.id, { x: position.x, y: position.y });
     }
@@ -51,8 +52,6 @@ class Note extends Component {
   }
 
   renderNote() {
-    console.log(this.props.note);
-
     const editButton = this.state.isEditing ?
       <span onClick={this.onEditClick} data-tip data-for="saveChanges"><i className="icon fas fa-check" /></span> :
       <span onClick={this.onEditClick} data-tip data-for="editNote"><i className="icon fas fa-edit" /></span>;
